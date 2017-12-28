@@ -92,7 +92,7 @@ def getPlayer(points, frame):
     return False
 
 write_comp = False
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 while(game):
     fields = []
     ret, frame = cap.read()
@@ -108,6 +108,7 @@ while(game):
     line = h/3
     points = []
     key = 0
+
 
 
     for num_column in range(0,4):
