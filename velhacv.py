@@ -30,7 +30,7 @@ def findBiggestContour(mask):
         key += 1
 
 def getField(coord, frame):
-    crop_img = frame[coord[0]:coord[1], coord[2]:coord[3]]
+    crop_img = frame[int(coord[0]):int(coord[1]), int(coord[2]):int(coord[3])]
     return crop_img
 
 
@@ -79,11 +79,11 @@ def getPlayer(points, frame):
         value = compareContourHSV(cnt)
         old_played = np.where(indexs== field_key)[0]
         if value != False and init == False and len(old_played) == 1:
-            print "Found new move! Wait 3 second."
+            print("Found new move! Wait 3 second.")
             last_time = int(time.time())
             init = True
         if value != False and int(time.time()) - last_time > 3 and init == True and len(old_played) == 1:
-            print "Play player:", field_key
+            print("Play player:", field_key)
             tic.writePosition(field_key, value)
             init = False
             choose_user = False
@@ -123,30 +123,30 @@ while(game):
 
 
     for field in fields:
-        cv2.circle(frame, (field[2], field[0]), 3, (0,0,255), -1)
+        cv2.circle(frame, (int(field[2]), int(field[0])), 3, (0,0,255), -1)
 
 
     if choose_user == True:
         result = getPlayer(fields, frame)
         if  result == True:
-            print "The player win!"
+            print("The player win!")
             break
         elif result == "EMPATE":
-            print "There is a Tie !"
+            print("There is a Tie !")
             break
 
 
     elif choose_user == False:
         tic.inteligence(computer)
         result = tic.verifyWinner(computer)
-        print tic.game[0]
-        print tic.game[1]
-        print tic.game[2]
+        print(tic.game[0])
+        print(tic.game[1])
+        print(tic.game[2])
         if  result == True:
-            print "The copmputer win!"
+            print("The copmputer win!")
             break
         elif result == "EMPATE":
-            print "There was a  draw!"
+            print("There was a  draw!")
             break
         write_comp = True
         choose_user = True
@@ -159,7 +159,7 @@ while(game):
         gameboard = np.array(tic.game[0]+tic.game[1]+tic.game[2])
         indexs = np.where(gameboard==computer)[0]
         for index in indexs:
-            coord = (fields[index][2]+50, fields[index][0]+100)
+            coord = (int(fields[index][2])+50, int(fields[index][0])+100)
             cv2.putText(frame, text,coord, FONTE, 3,(50,0,255),2,cv2.LINE_AA)
 
 
