@@ -1,12 +1,15 @@
 import tictactoe as tic
 
+def dispaygame(game):
+    print(game[0])
+    print(game[1])
+    print(game[2])
+
 win = False
 while win is False:
     #acertar verificacao, sair do loop imediatamente se houve ganhador
     tic.getPlayerMark(1)
-    print(tic.game[0])
-    print(tic.game[1])
-    print(tic.game[2])
+    dispaygame(tic.game)
     win = tic.verifyWinner(1)
     if win=='EMPATE':
         print('no body win')
@@ -17,9 +20,7 @@ while win is False:
     tic.inteligence(2)
     win = tic.verifyWinner(2)
     print("computer already played")
-    print(tic.game[0])
-    print(tic.game[1])
-    print(tic.game[2])
+    dispaygame(tic.game)
     if win:
         print('computer win')
         break

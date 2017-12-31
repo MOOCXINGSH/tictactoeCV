@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
-import tictactoe as tic
 import time
+import tictactoe as tic
 
 CARD_COLOR_UP = np.array([255,255,255],dtype="uint8")
 CARD_COLOR_LOW = np.array([150,150,150],dtype="uint8")
@@ -84,10 +84,8 @@ def getPlayer(points, frame):
             init = True
         if value != False and int(time.time()) - last_time > 3 and init == True and len(old_played) == 1:
             print("Play player:", field_key)
-            tic.writePosition(field_key, value)
             init = False
             choose_user = False
-            return tic.verifyWinner(value)
         field_key += 1
     return False
 
@@ -103,6 +101,8 @@ while(game):
     frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     cnt = findBiggestContour(cv2.Canny(frame_gray, 100,200))
     x,y,h,w = cv2.boundingRect(cnt)
+    x,y,h,w=100,100,300,300
+    #print (x,y,h,w)
     #cv2.rectangle(frame,(x,y),(x+h,y+w),(0,255,0),2)
     column = w/3
     line = h/3
@@ -112,37 +112,22 @@ while(game):
     for num_column in range(0,4):
         for num_line in range(0,4):
             points.append(((num_line*line)+x,(num_column*column)+y))
+#            print(points)
 
     for number in range(0, 11):
+        print(number)
         if number != 3 and number != 7:
+            #        upperleft y   ,    lowerright y ,      upperleft x,     lowerright x
             field = [points[number][1], points[number+5][1], points[number][0],points[number+5][0]]
+            print(field)
             fields.append(field)
 
     for field in fields:
-        cv2.circle(frame, (int(field[2]), int(field[0])), 3, (0,0,255), -1)
-
-    if choose_user == True:
-        result = getPlayer(fields, frame)
-        if  result == True:
-            print("The player win!")
-            break
-        elif result == "EMPATE":
-            print("There is a Tie !")
-            break
-    elif choose_user == False:
-        tic.inteligence(computer)
-        result = tic.verifyWinner(computer)
-        print(tic.game[0])
-        print(tic.game[1])
-        print(tic.game[2])
-        if  result == True:
-            print("The copmputer win!")
-            break
-        elif result == "EMPATE":
-            print("No boday win!")
-            break
-        write_comp = True
-        choose_user = True
+        cv2.circle(frame, (int(field[2]), int(field[0])), 10, (0,255,255), -1)
+    result = getPlayer(fields, frame)
+    write_comp = True
+    choose_user = True
+    computer=2
     if write_comp == True:
         if computer == 1:
             text = "X"

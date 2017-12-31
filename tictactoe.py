@@ -32,9 +32,6 @@ def getPlayerMark(player):
     position = int(input('Which position do you choose? (0-8)'))
     print("You choose the position %d." % position)
     writePosition(position, player)
-#    print(game[0])
-#    print(game[1])
-#    print(game[2])
 
 def verifyWinner(player):
     index = 0
