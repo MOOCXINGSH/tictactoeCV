@@ -6,6 +6,11 @@ from datetime import datetime
 game = [[0,0,0],[0,0,0],[0,0,0]]
 win = False
 
+def displayboard():
+    print(game[0])
+    print(game[1])
+    print(game[2])
+
 #this function writes in board the mark
 def writePosition(position, player):
     if position < 3:
@@ -26,6 +31,14 @@ def writePosition(position, player):
         else:
             print("This room is already filled！")
             getPlayerMark(player)
+
+def readPosition(position):
+    if position < 3:
+        return game[0][position]
+    if position > 2 and position < 6:
+        return game[1][position - 3]
+    if position > 5 and position < 9:
+        return game[2][position - 6]
 
 #this function get the position mark of the player
 def getPlayerMark(player):
@@ -189,6 +202,7 @@ def inteligence(player):
     #check what houses are blank and choose one randomly, but first, select the middle field if is blank
     possibilities = []
     index = 0
+    random.seed(datetime.now())
     for number in game[0]+game[1]+game[2]:
         if number == 0:
             if index == 4:
@@ -196,7 +210,7 @@ def inteligence(player):
                 return 4
             possibilities.append(index)
         index += 1
-    random.seed(datetime.now())
-    position = random.choice(possibilities)
-    writePosition(position, player)
-    return position
+    if(len(possibilities)!=0):
+        position = random.choice(possibilities)
+        writePosition(position, player)
+        return position
