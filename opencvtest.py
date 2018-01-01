@@ -19,7 +19,6 @@ def findBiggestContour(mask):
     temp_bigger = []
     img1, cont, hier = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
     if len(cont) == 0:
-#        print("len cont is 0")
         return False
     for cnt in cont:
         temp_bigger.append(cv2.contourArea(cnt))
@@ -36,7 +35,6 @@ def getField(coord, frame):
     crop_img = frame[int(coord[0]):int(coord[1]), int(coord[2]):int(coord[3])]
     return crop_img
 
-
 def getContoursHSV(img):
     print("into getContoursHSV")
     cv2.imshow('img',img)
@@ -52,7 +50,6 @@ def getContoursHSV(img):
         return False
 
 def compareContourHSV(cnt):
-    global player, computer
     print("into compareContorHSV")
     if cnt is False:
         return False
@@ -63,17 +60,11 @@ def compareContourHSV(cnt):
     patternO = findBiggestContour(patternO)
     resO = cv2.matchShapes(patternO, cnt, 1, 0.0)
     print("resX is %f  resO is %f" %(resX,resO))
-    if resX < 0.9 or resO < 0.9:
-        if resX < resO:
-            player = 2
-            computer = 1
-            return player
-        elif resX != 0 and resO != 0:
-            player = 1
-            computer = 2
-            return player
-    else:
-        return False
+    if resX < 0.9:
+        return 1
+    if resO < 0.9:
+        return 2
+    return 0
 
 def getPlayerMove(points, frame):
     global choose_user, init, last_time,fields
@@ -136,6 +127,16 @@ def screenprint(frame,disptext):
       hW,wW = frame.shape[0:2]
       cv2.line(frame,(0,hW-25),(wW,hW-25),(35,35,155),25)
       cv2.putText(frame, disptext,(150, hW-20), FONTE, 0.7,(0,255,0),2,cv2.LINE_AA)
+
+def matchshapeslearn():
+    patternX = cv2.cvtColor(cv2.imread('X.png'), cv2.COLOR_BGR2GRAY)
+    patternX = findBiggestContour(patternX)
+    patternO = cv2.cvtColor(cv2.imread('O.png'), cv2.COLOR_BGR2GRAY)
+    patternO = findBiggestContour(patternO)
+    resXX = cv2.matchShapes(patternX, patternX, 1, 0.0)
+    resXO = cv2.matchShapes(patternX, patternO, 1, 0.0)
+    resOO = cv2.matchShapes(patternO, patternO, 1, 0.0)
+    print(resXX,resXO,resOO)
 
 #Main start from There
 
