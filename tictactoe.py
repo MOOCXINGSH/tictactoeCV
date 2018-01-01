@@ -1,6 +1,7 @@
 import operators as op
 import random
 from datetime import datetime
+#import myuarm as myu
 
 #create the game board
 game = [[0,0,0],[0,0,0],[0,0,0]]
@@ -13,24 +14,27 @@ def displayboard():
 
 #this function writes in board the mark
 def writePosition(position, player):
+    roomalreadyfill=0
     if position < 3:
         if int(game[0][position]) is 0:
             game[0][position] = player
         else:
-            print("This room is already filled！")
-            getPlayerMark(player)
+            roomalreadyfill=1
     if position > 2 and position < 6:
         if int(game[1][position - 3]) is 0:
             game[1][position - 3] = player
         else:
-            print("This room is already filled！")
-            getPlayerMark(player)
+            roomalreadyfill=1
     if position > 5 and position < 9:
         if int(game[2][position - 6]) is 0:
             game[2][position - 6] = player
         else:
-            print("This room is already filled！")
-            getPlayerMark(player)
+            roomalreadyfill=1
+    if roomalreadyfill==1:
+        print("room already filled,bypass")
+    else:
+        if player==2:  #computer player, try to egage uarm
+            print("please add urm code here like this myu.putchess(position)")
 
 def readPosition(position):
     if position < 3:
